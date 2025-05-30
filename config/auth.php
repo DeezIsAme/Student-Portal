@@ -42,7 +42,7 @@ return [
         ],
     ],
 
-    
+
 
     /*
     |--------------------------------------------------------------------------
@@ -62,25 +62,13 @@ return [
     */
 
     'providers' => [
-        'users' => [
-            'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\User::class),
-        ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
-    ],
-
-    'providers' => [
         'users' => [ // Provider default untuk Admin (tabel 'users')
             'driver' => 'eloquent',
             'model' => App\Models\User::class, // Menggunakan model User
         ],
 
         // Tambahkan provider baru untuk user biasa (tabel 'user_account')
-        
+
     ],
     /*
     |--------------------------------------------------------------------------
