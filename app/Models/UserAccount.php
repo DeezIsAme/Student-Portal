@@ -10,6 +10,11 @@ class UserAccount extends Authenticatable
 {
     //
   
+    public function student()
+    {
+        return $this->hasOne(Student::class, 'id_user');
+    }
+
      /**
       * The attributes that are mass assignable.
       *
