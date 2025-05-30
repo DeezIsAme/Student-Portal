@@ -12,4 +12,6 @@ Route::post('/logout', [LoginController::class, 'logout']);
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [RegisterController::class, 'register']);
 
-Route::get('/index', [FormController::class, 'showForm'])->middleware('auth')->name('index');
+Route::middleware('auth:user_account_guard')->get('/index', function () {
+    return view('index');
+});
