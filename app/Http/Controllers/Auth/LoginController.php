@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Services\UserAccountAuthService; // Import service class Anda
-use Illuminate\Validation\ValidationException; // Import ValidationException
+use App\Services\UserAccountAuthService;
+use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
@@ -17,40 +17,49 @@ class LoginController extends Controller
         $this->userAccountAuthService = $userAccountAuthService;
     }
 
+    // Menampilkan form login
     public function showLoginForm()
     {
         return view('auth.login');
     }
 
+    // Memproses login
     public function login(Request $request)
     {
+        // Validasi input awal
         $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
 
         try {
+            // Panggil service untuk autentikasi
             $user = $this->userAccountAuthService->authenticate(
                 $request->input('email'),
                 $request->input('password')
             );
 
-            // Jika autentikasi berhasil (mendapatkan objek user), lakukan login secara manual
-            // Pastikan Anda menggunakan guard yang benar jika Anda memiliki beberapa guard
-            Auth::guard('user_account_guard')->login($user, $request->boolean('remember')); // <--- UN-KOMENTARI BARIS INI!
+            // Login manual menggunakan guard yang sesuai
+            Auth::guard('user_account_guard')->login($user);
 
+            // Regenerasi session untuk keamanan
             $request->session()->regenerate();
-            return redirect()->intended('/index'); // ubah ke route tujuanmu
+
+            // Redirect ke halaman yang diinginkan
+            return redirect()->intended('/index');
 
         } catch (ValidationException $e) {
-            return back()->withErrors($e->errors())->onlyInput('email');
+            // Jika autentikasi gagal
+            return back()->withErrors($e->errors())->withInput();
         } catch (\Exception $e) {
+            // Jika ada kesalahan lain
             return back()->withErrors([
                 'email' => 'Terjadi kesalahan. Silakan coba lagi.',
-            ])->onlyInput('email');
+            ])->withInput();
         }
     }
 
+    // Logout
     public function logout(Request $request)
     {
         Auth::guard('user_account_guard')->logout();
