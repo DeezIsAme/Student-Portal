@@ -10,7 +10,6 @@ class UserAccount extends Authenticatable
 {
     //
   
-
      /**
       * The attributes that are mass assignable.
       *

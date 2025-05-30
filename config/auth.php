@@ -42,6 +42,8 @@ return [
         ],
     ],
 
+    
+
     /*
     |--------------------------------------------------------------------------
     | User Providers
@@ -71,6 +73,15 @@ return [
         // ],
     ],
 
+    'providers' => [
+        'users' => [ // Provider default untuk Admin (tabel 'users')
+            'driver' => 'eloquent',
+            'model' => App\Models\User::class, // Menggunakan model User
+        ],
+
+        // Tambahkan provider baru untuk user biasa (tabel 'user_account')
+        
+    ],
     /*
     |--------------------------------------------------------------------------
     | Resetting Passwords
