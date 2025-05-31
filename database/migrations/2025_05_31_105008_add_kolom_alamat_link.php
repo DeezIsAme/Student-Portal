@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('activities', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('id_user')->constrained('students')->onDelete('cascade');
-            $table->string('activity');
-            $table->timestamps();
+        //
+        Schema::table('students', function (Blueprint $table) {
+            $table->string('alamat_link')->nullable()->after('alamat');
         });
-        
     }
 
     /**
@@ -25,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('activities');
+        //
     }
 };
