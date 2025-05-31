@@ -9,9 +9,8 @@ class Activity extends Model
     protected $fillable = ['id_user', 'activity'];
 
     //
-        public function student()
+    public function student()
     {
         return $this->belongsTo(Student::class, 'id_student');
     }
-
 }
