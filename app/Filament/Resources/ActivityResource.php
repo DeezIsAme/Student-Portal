@@ -5,7 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ActivityResource\Pages;
 use App\Filament\Resources\ActivityResource\RelationManagers;
 use App\Models\Activity;
-use App\Models\Student;
+use App\Models\UserAccount; // Import UserAccount instead of Student
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -46,12 +46,12 @@ class ActivityResource extends Resource
                             ->schema([
                                 Forms\Components\Select::make('id_user')
                                     ->label('Mahasiswa')
-                                    ->relationship('student', 'name')
+                                    ->relationship('userAccount', 'name') // Changed from 'student' to 'userAccount'
                                     ->searchable(['name', 'NIM'])
                                     ->preload()
                                     ->required()
                                     ->prefixIcon('heroicon-o-user')
-                                    ->getOptionLabelFromRecordUsing(fn(Student $record) => "{$record->name} - {$record->NIM}")
+                                    ->getOptionLabelFromRecordUsing(fn(UserAccount $record) => "{$record->name} - {$record->NIM}")
                                     ->placeholder('Pilih mahasiswa...')
                                     ->helperText('Cari berdasarkan nama atau NIM'),
 
@@ -79,7 +79,7 @@ class ActivityResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('student.NIM')
+                Tables\Columns\TextColumn::make('userAccount.NIM') // Changed from 'student' to 'userAccount'
                     ->label('NIM')
                     ->searchable()
                     ->sortable()
@@ -89,15 +89,15 @@ class ActivityResource extends Resource
                     ->copyMessage('NIM berhasil disalin!')
                     ->tooltip('Klik untuk menyalin'),
 
-                Tables\Columns\TextColumn::make('student.name')
+                Tables\Columns\TextColumn::make('userAccount.name') // Changed from 'student' to 'userAccount'
                     ->label('Nama Mahasiswa')
                     ->searchable()
                     ->sortable()
                     ->weight(FontWeight::Medium)
-                    ->description(fn($record) => $record->student?->email ?? 'Email tidak tersedia')
+                    ->description(fn($record) => $record->userAccount?->email ?? 'Email tidak tersedia')
                     ->wrap(),
 
-                Tables\Columns\TextColumn::make('student.jurusan.nama_jurusan')
+                Tables\Columns\TextColumn::make('userAccount.jurusan.nama_jurusan') // Changed from 'student' to 'userAccount'
                     ->label('Jurusan')
                     ->searchable()
                     ->sortable()
@@ -130,10 +130,10 @@ class ActivityResource extends Resource
             ->filters([
                 SelectFilter::make('id_user')
                     ->label('Mahasiswa')
-                    ->relationship('student', 'name')
+                    ->relationship('userAccount', 'name') // Changed from 'student' to 'userAccount'
                     ->searchable()
                     ->preload()
-                    ->getOptionLabelFromRecordUsing(fn(Student $record) => "{$record->name} - {$record->NIM}"),
+                    ->getOptionLabelFromRecordUsing(fn(UserAccount $record) => "{$record->name} - {$record->NIM}"),
 
                 SelectFilter::make('jurusan')
                     ->label('Jurusan')
@@ -142,7 +142,7 @@ class ActivityResource extends Resource
                     })
                     ->query(function (Builder $query, array $data) {
                         if (filled($data['value'])) {
-                            $query->whereHas('student.jurusan', function (Builder $query) use ($data) {
+                            $query->whereHas('userAccount.jurusan', function (Builder $query) use ($data) { // Changed from 'student' to 'userAccount'
                                 $query->where('id', $data['value']);
                             });
                         }
