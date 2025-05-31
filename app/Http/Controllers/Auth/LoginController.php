@@ -10,7 +10,6 @@ use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
-    // Inject service class melalui constructor (dependency injection)
     protected $userAccountAuthService;
 
     public function __construct(UserAccountAuthService $userAccountAuthService)
@@ -62,7 +61,6 @@ class LoginController extends Controller
     // Logout
     public function logout(Request $request)
     {
-        // Pastikan guard yang di-logout juga sesuai
         Auth::guard('user_account_guard')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
