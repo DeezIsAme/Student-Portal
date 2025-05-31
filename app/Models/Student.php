@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Student extends Model
 {
 
-    protected $fillable = ['id_user', 'name', 'email', 'NIM', 'tanggal_lahir', 'telepon', 'kesukaan', 'jurusan_id', 'alamat'];
+    protected $fillable = ['id_user', 'name', 'email', 'NIM', 'tanggal_lahir', 'telepon', 'kesukaan', 'jurusan_id', 'alamat', 'alamat_link'];
 
-        //
-        public function user()
+    //
+    public function user()
     {
         return $this->belongsTo(UserAccount::class, 'id_user');
     }
@@ -24,5 +24,4 @@ class Student extends Model
     {
         return $this->hasMany(Activity::class, 'id_student');
     }
-
 }
